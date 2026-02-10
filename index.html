@@ -495,6 +495,15 @@
       pointer-events: auto;
     }
 
+    #session-end-field .dt-time-dropdown {
+      width: 200px;
+    }
+
+    .dt-time-duration {
+      color: var(--font-tertiary);
+      font-weight: 400;
+    }
+
     .dt-time-option {
       display: block;
       width: 100%;
@@ -2589,6 +2598,18 @@
       return min === 0 ? `${h12}:00 ${ampm}` : `${h12}:${String(min).padStart(2, '0')} ${ampm}`;
     }
 
+    function fmtDuration(startTime, endTime) {
+      const [sh, sm] = startTime.split(':').map(Number);
+      const [eh, em] = endTime.split(':').map(Number);
+      let mins = (eh * 60 + em) - (sh * 60 + sm);
+      if (mins <= 0) return '';
+      const hrs = Math.floor(mins / 60);
+      const rm = mins % 60;
+      if (hrs === 0) return `(${rm} min)`;
+      if (rm === 0) return hrs === 1 ? '(1 hr)' : `(${hrs} hrs)`;
+      return hrs === 1 ? `(1 hr ${rm} min)` : `(${hrs} hrs ${rm} min)`;
+    }
+
     // --- Custom Calendar ---
     let calendarEl = null;
     let calViewYear, calViewMonth, calSelectedISO;
@@ -2710,16 +2731,24 @@
       dropdown.id = 'dt-time-dropdown';
 
       // Generate 15-min increments
+      const startInput = document.getElementById('session-start-time-input');
+      const isEnd = which === 'end';
       for (let h = 0; h < 24; h++) {
         for (let m = 0; m < 60; m += 15) {
           const val = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
           const btn = document.createElement('button');
           btn.className = 'dt-time-option' + (val === currentVal ? ' selected' : '');
-          btn.textContent = fmtTimePill(val);
+          const dur = isEnd && startInput ? fmtDuration(startInput.value, val) : '';
+          btn.innerHTML = dur ? `${fmtTimePill(val)} <span class="dt-time-duration">${dur}</span>` : fmtTimePill(val);
           btn.addEventListener('click', (e) => {
             e.stopPropagation();
             hiddenInput.value = val;
-            label.textContent = fmtTimePill(val);
+            if (isEnd && startInput) {
+              const d = fmtDuration(startInput.value, val);
+              label.innerHTML = d ? `${fmtTimePill(val)} <span class="dt-time-duration">${d}</span>` : fmtTimePill(val);
+            } else {
+              label.textContent = fmtTimePill(val);
+            }
             closeTimePicker();
           });
           dropdown.appendChild(btn);
@@ -2796,7 +2825,7 @@
         </div>
         <span class="session-dt-sep">–</span>
         <div class="session-dt-field" id="session-end-field">
-          <span id="session-end-label">${fmtTimePill(_endTime)}</span>
+          <span id="session-end-label">${fmtTimePill(_endTime)} <span class="dt-time-duration">${fmtDuration(_startTime, _endTime)}</span></span>
           <input type="hidden" id="session-end-time-input" value="${_endTime}">
         </div>
       `;
