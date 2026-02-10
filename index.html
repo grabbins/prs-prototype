@@ -1,0 +1,2945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session Landing - Brushy Bend Bible Club</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Vollkorn:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --white: #FFF;
+      --sand-2: #F9F9F8;
+      --sand-3: #F1F0EF;
+      --sand-4: #E9E8E6;
+      --sand-5: #E2E1DE;
+      --sand-7: #CFCECA;
+      --sand-8: #BCBBB5;
+      --font-default: rgba(33, 32, 28, 1);
+      --font-secondary: rgba(99, 99, 94, 1);
+      --font-tertiary: #82827C;
+      --font-white: rgba(255, 255, 255, 1);
+      --primary: #8F3430;
+      --primary-text: #943834;
+      --focus: #008BE8;
+      --error: #C32424;
+      --success: #35944B;
+      --radius-sm: 4px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --radius-round: 9999px;
+      --shadow-card: 0 2px 4px -1.5px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.11);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--sand-2);
+      color: var(--font-default);
+      min-height: 100vh;
+    }
+
+    /* Layout */
+    .app-layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 84px;
+      background: var(--sand-2);
+      border-right: 1px solid var(--sand-5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 0;
+      gap: 24px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+
+    .sidebar-logo {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 8px;
+    }
+
+    .sidebar-nav {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      flex: 1;
+    }
+
+    .nav-item {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: background 0.15s;
+      border: 1.5px solid transparent;
+    }
+
+    .nav-item:hover {
+      background: var(--sand-3);
+    }
+
+    .nav-item.active {
+      background: var(--sand-3);
+      border-color: var(--sand-5);
+    }
+
+    .nav-item svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .sidebar-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-round);
+      background: #D9D9D9;
+      margin-top: auto;
+    }
+
+    /* Main content */
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 32px 24px 48px 24px;
+    }
+
+    .top-section {
+      max-width: 840px;
+      width: 100%;
+    }
+
+    .columns {
+      display: flex;
+      gap: 32px;
+      max-width: 840px;
+      width: 100%;
+    }
+
+    .content-area {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .right-panel {
+      width: 261px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* Back button */
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--font-tertiary);
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 22px;
+      cursor: pointer;
+      border: none;
+      background: none;
+      padding: 0;
+      margin-bottom: 50px;
+      text-decoration: none;
+    }
+
+    .back-btn:hover {
+      color: var(--font-default);
+    }
+
+    .back-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Header */
+    .session-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .calendar-icon {
+      width: 64px;
+      aspect-ratio: 1 / 1;
+      border-radius: 12px;
+      border: none;
+      box-shadow: 0 2px 4px -1.5px rgba(0, 0, 0, 0.12), inset 0 0 0 1px rgba(0, 0, 0, 0.16);
+      background: radial-gradient(79.59% 79.59% at 50% 38.78%, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.04) 100%), #FFF;
+      overflow: hidden;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .calendar-icon-month {
+      background: radial-gradient(ellipse 100% 125% at 50% 0%, #D2544E 0%, #8F3430 100%);
+      color: #FFF;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 18px;
+      text-align: center;
+      width: 100%;
+      height: 24px;
+      padding: 3px 0;
+      font-feature-settings: 'dlig' on, 'hlig' on;
+    }
+
+    .calendar-icon-day {
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      color: #000;
+      font-family: 'Inter', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 120%;
+      text-align: center;
+      font-feature-settings: 'dlig' on, 'hlig' on;
+    }
+
+    .session-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 2px;
+    }
+
+    .session-time {
+      color: var(--primary-text);
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 22px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .session-title {
+      font-family: 'Vollkorn', serif;
+      font-size: 28px;
+      font-weight: 800;
+      line-height: 36px;
+      color: var(--font-default);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      flex-shrink: 0;
+      padding-top: 8px;
+    }
+
+    /* Session inline edit mode */
+    .session-edit-input {
+      font-family: inherit;
+      border: 1.5px solid var(--sand-5);
+      border-radius: var(--radius-md);
+      padding: 6px 10px;
+      outline: none;
+      background: var(--white);
+      transition: border-color 0.15s;
+      width: 100%;
+    }
+
+    .session-edit-input:focus {
+      border-color: var(--focus);
+      box-shadow: 0 0 0 3px rgba(0, 139, 232, 0.12);
+    }
+
+    .session-edit-input.input-title {
+      font-family: 'Vollkorn', serif;
+      font-size: 28px;
+      font-weight: 800;
+      line-height: 36px;
+      color: var(--font-default);
+    }
+
+    .session-edit-input.input-field {
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 22px;
+      color: var(--font-default);
+    }
+
+    .session-datetime-edit {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: nowrap;
+    }
+
+    .session-dt-field {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 10px;
+      border-radius: 8px;
+      background: var(--sand-3);
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--primary-text);
+      line-height: 22px;
+      transition: background 0.15s;
+      white-space: nowrap;
+      user-select: none;
+    }
+
+    .session-dt-field:hover {
+      background: var(--sand-4);
+    }
+
+    .session-dt-field.active {
+      background: var(--sand-4);
+      box-shadow: 0 0 0 2px var(--focus);
+    }
+
+    .session-dt-field svg {
+      width: 14px;
+      height: 14px;
+      color: var(--font-tertiary);
+      flex-shrink: 0;
+    }
+
+    .session-dt-sep {
+      color: var(--font-tertiary);
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    /* Custom calendar dropdown */
+    .dt-calendar {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      width: 280px;
+      background: #FFF;
+      border-radius: 12px;
+      box-shadow: 0 12px 36px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.06);
+      padding: 16px;
+      z-index: 200;
+      opacity: 0;
+      transform: translateY(-4px);
+      transition: opacity 0.15s ease, transform 0.15s ease;
+      pointer-events: none;
+    }
+
+    .dt-calendar.visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .dt-cal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .dt-cal-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--font-default);
+    }
+
+    .dt-cal-nav {
+      display: flex;
+      gap: 4px;
+    }
+
+    .dt-cal-nav button {
+      width: 28px;
+      height: 28px;
+      border: none;
+      background: none;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--font-secondary);
+      transition: background 0.1s;
+    }
+
+    .dt-cal-nav button:hover {
+      background: var(--sand-3);
+    }
+
+    .dt-cal-nav button svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .dt-cal-weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      margin-bottom: 4px;
+    }
+
+    .dt-cal-weekdays span {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--font-tertiary);
+      text-align: center;
+      padding: 4px 0;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    .dt-cal-days {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 2px;
+    }
+
+    .dt-cal-day {
+      width: 100%;
+      aspect-ratio: 1;
+      border: none;
+      background: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--font-default);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.1s;
+    }
+
+    .dt-cal-day:hover {
+      background: var(--sand-3);
+    }
+
+    .dt-cal-day.other-month {
+      color: var(--sand-7);
+    }
+
+    .dt-cal-day.today {
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .dt-cal-day.selected {
+      background: var(--primary);
+      color: #FFF;
+    }
+
+    .dt-cal-day.selected:hover {
+      background: var(--primary);
+      filter: brightness(1.1);
+    }
+
+    /* Custom time dropdown */
+    .dt-time-dropdown {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%) translateY(-4px);
+      width: 120px;
+      max-height: 240px;
+      overflow-y: auto;
+      background: #FFF;
+      border-radius: 10px;
+      box-shadow: 0 12px 36px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.06);
+      padding: 6px;
+      z-index: 200;
+      opacity: 0;
+      transition: opacity 0.15s ease, transform 0.15s ease;
+      pointer-events: none;
+      scrollbar-width: thin;
+      scrollbar-color: var(--sand-5) transparent;
+    }
+
+    .dt-time-dropdown.visible {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+      pointer-events: auto;
+    }
+
+    .dt-time-option {
+      display: block;
+      width: 100%;
+      padding: 8px 12px;
+      border: none;
+      background: none;
+      border-radius: 6px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--font-default);
+      cursor: pointer;
+      text-align: left;
+      white-space: nowrap;
+      transition: background 0.1s;
+    }
+
+    .dt-time-option:hover {
+      background: var(--sand-2);
+    }
+
+    .dt-time-option.selected {
+      background: var(--sand-3);
+      font-weight: 600;
+    }
+
+    .header-actions .btn-cancel {
+      background: transparent;
+      box-shadow: none;
+      color: var(--font-secondary);
+    }
+
+    .header-actions .btn-cancel:hover {
+      background: var(--sand-3);
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      padding: 9px 16px;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      border-radius: var(--radius-md);
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 22px;
+      cursor: pointer;
+      border: none;
+      white-space: nowrap;
+      transition: filter 0.15s;
+    }
+
+    .btn:hover {
+      filter: brightness(0.95);
+    }
+
+    .btn-secondary {
+      background: linear-gradient(180deg, rgba(233, 232, 230, 0.00) 34.69%, rgba(233, 232, 230, 0.30) 100%), var(--white);
+      box-shadow: var(--shadow-card);
+      color: var(--font-default);
+    }
+
+    .btn-primary {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.00) 50%), var(--primary);
+      box-shadow: 0 2px 4px -1.5px rgba(0, 0, 0, 0.24), 0 0 0 1px rgba(0, 0, 0, 0.16);
+      color: var(--font-white);
+    }
+
+    .btn-small {
+      padding: 5px 12px;
+      font-size: 13px;
+    }
+
+    .btn-icon {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Cards */
+    .card {
+      border-radius: var(--radius-lg);
+      background: var(--white);
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+    }
+
+    /* RSVP Card */
+    .rsvp-card {
+      margin-bottom: 20px;
+      overflow: visible;
+    }
+
+    .rsvp-header {
+      display: flex;
+      padding: 16px;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid var(--sand-4);
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    }
+
+    .rsvp-header-title {
+      flex: 1;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 22px;
+    }
+
+    .rsvp-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: relative;
+    }
+
+    /* Initial two-button chooser */
+    .rsvp-choices {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .rsvp-choices.hiding {
+      opacity: 0;
+      transform: scale(0.97);
+      pointer-events: none;
+    }
+
+    /* Active response button */
+    .rsvp-status-btn {
+      display: inline-flex;
+      padding: 8px 16px;
+      align-items: center;
+      gap: 8px;
+      border-radius: var(--radius-md);
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 22px;
+      cursor: pointer;
+      border: none;
+      white-space: nowrap;
+      opacity: 0;
+      transform: scale(0.97);
+      transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), background 0.25s ease, box-shadow 0.25s ease, color 0.25s ease;
+    }
+
+    .rsvp-status-btn.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .rsvp-status-btn.attending {
+      background: #ECFAF0;
+      box-shadow: 0 0 0 1px rgba(53, 148, 75, 0.22), 0 1px 3px rgba(53, 148, 75, 0.06);
+      color: #2D7A3F;
+    }
+
+    .rsvp-status-btn.not-attending {
+      background: #FEF0F0;
+      box-shadow: 0 0 0 1px rgba(195, 36, 36, 0.22), 0 1px 3px rgba(195, 36, 36, 0.06);
+      color: #B42020;
+    }
+
+    .rsvp-status-btn .rsvp-status-chevron {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      transition: transform 0.2s ease;
+    }
+
+    .rsvp-status-btn.dropdown-open .rsvp-status-chevron {
+      transform: rotate(180deg);
+    }
+
+    @keyframes rsvp-settle {
+      0% { transform: scale(1); }
+      40% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    .rsvp-status-btn.settle {
+      animation: rsvp-settle 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Response change crossfade */
+    .rsvp-status-btn.switching {
+      opacity: 0;
+      transform: scale(0.97);
+      transition: opacity 0.15s ease, transform 0.15s ease;
+    }
+
+    /* RSVP Dropdown */
+    .rsvp-dropdown {
+      position: absolute;
+      top: calc(100% + 6px);
+      right: -8px;
+      width: 210px;
+      background: #FFF;
+      border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.08);
+      padding: 6px;
+      z-index: 100;
+      display: none;
+      opacity: 0;
+      transform: translateY(-4px);
+      transition: opacity 0.15s ease, transform 0.15s ease;
+    }
+
+    .rsvp-dropdown.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .rsvp-dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding: 10px 12px;
+      border: none;
+      background: none;
+      border-radius: 7px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--font-default);
+      cursor: pointer;
+      transition: background 0.1s;
+    }
+
+    .rsvp-dropdown-item:hover {
+      background: var(--sand-2);
+    }
+
+    .rsvp-dropdown-item .rsvp-dropdown-check {
+      width: 16px;
+      height: 16px;
+      margin-left: auto;
+      opacity: 0;
+    }
+
+    .rsvp-dropdown-item.current .rsvp-dropdown-check {
+      opacity: 1;
+    }
+
+    .rsvp-footer {
+      display: flex;
+      padding: 16px;
+      align-items: center;
+      gap: 12px;
+      background: var(--sand-2);
+      border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    }
+
+    .avatar-stack {
+      display: flex;
+      align-items: center;
+    }
+
+    .avatar-stack-item {
+      width: 28px;
+      height: 28px;
+      border-radius: var(--radius-round);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0.00) 100%), #8E140F;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--font-white);
+      border: 2px solid var(--sand-2);
+      margin-left: -6px;
+    }
+
+    .avatar-stack-item:first-child {
+      margin-left: 0;
+    }
+
+    .rsvp-footer-text {
+      flex: 1;
+      color: var(--font-secondary);
+      font-size: 13px;
+      line-height: 18px;
+    }
+
+    .link {
+      color: var(--focus);
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 18px;
+      text-decoration: none;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .link:hover {
+      text-decoration: underline;
+    }
+
+    /* Agenda */
+    .agenda-section {
+      margin-top: 24px;
+      margin-bottom: 24px;
+    }
+
+    .agenda-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .agenda-header svg {
+      width: 16px;
+      height: 16px;
+      color: var(--font-tertiary);
+    }
+
+    .agenda-label {
+      color: var(--font-tertiary);
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 22px;
+    }
+
+    .agenda-total {
+      flex: 1;
+      font-weight: 400;
+      font-size: 13px;
+      color: var(--font-tertiary);
+    }
+
+    .agenda-list {
+      display: flex;
+      width: 100%;
+      padding: 12px 0;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      border-radius: 12px;
+      background: var(--white);
+      box-shadow: 0 2px 4px -1.5px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.11);
+    }
+
+    .agenda-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px;
+      cursor: pointer;
+      transition: background 0.15s;
+      width: 100%;
+    }
+
+    .agenda-item:hover {
+      background: var(--sand-2);
+    }
+
+    .agenda-item .agenda-grip {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      opacity: 0;
+      transition: opacity 0.15s;
+    }
+
+    .agenda-item:hover .agenda-grip {
+      opacity: 1;
+    }
+
+    .agenda-item .agenda-item-actions {
+      opacity: 0;
+      transition: opacity 0.15s;
+    }
+
+    .agenda-item:hover .agenda-item-actions {
+      opacity: 1;
+    }
+
+    .agenda-item-fixed .agenda-grip {
+      cursor: default;
+      opacity: 0;
+    }
+
+    .agenda-item-fixed:hover .agenda-grip {
+      opacity: 0.25;
+    }
+
+    .agenda-item.no-hover,
+    .agenda-item.no-hover:hover {
+      background: transparent;
+    }
+
+    .agenda-item.no-hover .agenda-grip,
+    .agenda-item.no-hover:hover .agenda-grip {
+      opacity: 0;
+    }
+
+    .agenda-item.no-hover .agenda-item-actions,
+    .agenda-item.no-hover:hover .agenda-item-actions {
+      opacity: 0;
+    }
+
+    .agenda-item.editing,
+    .agenda-item.editing:hover {
+      background: var(--sand-2);
+    }
+
+    .agenda-item.editing .agenda-item-actions {
+      opacity: 1;
+    }
+
+    .agenda-item.settling {
+      transition: transform 0.35s cubic-bezier(0.2, 0, 0, 1);
+    }
+
+    .agenda-empty {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 48px 24px;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      width: 100%;
+      min-height: 200px;
+      flex: 1;
+    }
+
+    .agenda-empty.visible {
+      display: flex;
+      opacity: 1;
+    }
+
+    .agenda-empty-text {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--font-tertiary);
+    }
+
+    .agenda-empty-sub {
+      font-size: 13px;
+      color: var(--sand-8);
+      line-height: 18px;
+    }
+
+    .drag-placeholder {
+      flex-shrink: 0;
+    }
+
+    .agenda-item.drag-dimmed {
+      opacity: 0.6;
+      transition: opacity 0.2s ease;
+    }
+
+    .agenda-thumb {
+      width: 80px;
+      height: 60px;
+      border-radius: 12px;
+      overflow: hidden;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      background: #FFF;
+      padding: 3px;
+    }
+
+    .agenda-thumb-placeholder {
+      width: 100%;
+      height: 100%;
+      border-radius: 9px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .agenda-thumb-placeholder img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .agenda-thumb-scripture .agenda-thumb-placeholder img,
+    .agenda-thumb-presentation .agenda-thumb-placeholder img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .agenda-thumb-scripture {
+      box-shadow: inset 0 0 0 1.5px #FFCBCB;
+    }
+
+    .agenda-thumb-scripture .agenda-thumb-placeholder {
+      background: #FBEAEA;
+    }
+
+    .agenda-thumb-video {
+      box-shadow: inset 0 0 0 1.5px #DCC4FF;
+    }
+
+    .agenda-thumb-video .agenda-thumb-placeholder {
+      background: #F1EAFB;
+    }
+
+    .agenda-thumb-image {
+      box-shadow: inset 0 0 0 1.5px #B0DEBA;
+    }
+
+    .agenda-thumb-image .agenda-thumb-placeholder {
+      background: #E7F0E9;
+    }
+
+    .agenda-thumb-presentation {
+      box-shadow: inset 0 0 0 1.5px #FFE4AA;
+    }
+
+    .agenda-thumb-presentation .agenda-thumb-placeholder {
+      background: #F9EFDA;
+    }
+
+    .agenda-thumb-badge {
+      display: flex;
+      width: 28px;
+      height: 28px;
+      padding: 6px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0 10px;
+      position: absolute;
+      bottom: 1.5px;
+      left: 1.5px;
+    }
+
+    .agenda-thumb-badge img {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+
+    .agenda-thumb-image .agenda-thumb-badge {
+      background: #E7F0E9;
+    }
+
+    .agenda-thumb-video .agenda-thumb-badge {
+      background: #F1EAFB;
+    }
+
+    .agenda-thumb-scripture .agenda-thumb-badge {
+      background: #FBEAEA;
+    }
+
+    .agenda-thumb-presentation .agenda-thumb-badge {
+      background: #F9EFDA;
+    }
+
+    .agenda-item-info {
+      flex: 1;
+      min-width: 0;
+      margin-left: 4px;
+    }
+
+    .agenda-item-title {
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 22px;
+      color: var(--font-default);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .agenda-item-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #82827C;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 18px;
+      font-feature-settings: 'dlig' on, 'hlig' on;
+    }
+
+    .agenda-item-actions {
+      flex-shrink: 0;
+      margin-right: 12px;
+    }
+
+    .agenda-footer {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      padding: 12px 0;
+      font-size: 13px;
+      color: var(--font-secondary);
+      line-height: 18px;
+    }
+
+    /* Right Panel - Location Card */
+    .location-card .location-image {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .location-card .location-details {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .location-card .location-details .btn {
+      width: 100%;
+      margin-top: 12px;
+    }
+
+    .location-address {
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 22px;
+    }
+
+    /* Virtual Card */
+    .virtual-card {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .virtual-card .btn {
+      width: 100%;
+    }
+
+    .virtual-title {
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 22px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+
+    /* Dot separator */
+    .dot {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--sand-7);
+      flex-shrink: 0;
+    }
+
+    /* Description text */
+    .learn-more-text {
+      font-size: 13px;
+      color: var(--font-secondary);
+      line-height: 18px;
+      padding-bottom: 8px;
+    }
+
+    /* Edit Overlay */
+    .edit-overlay-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      display: none;
+    }
+
+    .edit-overlay {
+      position: fixed;
+      z-index: 1000;
+      width: 320px;
+      background: #FFF;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.08);
+      padding: 24px;
+      display: none;
+      flex-direction: column;
+      gap: 16px;
+      opacity: 0;
+      transform: translateX(-8px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .edit-overlay.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .edit-overlay::before {
+      content: '';
+      position: absolute;
+      left: -7px;
+      top: var(--arrow-y, 50%);
+      width: 14px;
+      height: 14px;
+      background: #FFF;
+      transform: translateY(-50%) rotate(45deg);
+      box-shadow: -1px 1px 0 0 rgba(0, 0, 0, 0.08);
+    }
+
+    .edit-overlay-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .edit-overlay-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--font-default);
+    }
+
+    .edit-overlay-type-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .edit-overlay-field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .edit-overlay-select {
+      width: 100%;
+      padding: 10px 36px 10px 14px;
+      border-radius: 8px;
+      border: 1.5px solid var(--sand-5);
+      background: #FFF;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--font-default);
+      appearance: none;
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2382827C' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+    }
+
+    .edit-overlay-select:focus {
+      outline: none;
+      border-color: var(--focus);
+    }
+
+    .edit-overlay-label {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--font-tertiary);
+    }
+
+    .edit-overlay-chapters {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .edit-overlay-chapters .edit-overlay-select {
+      flex: 1;
+    }
+
+    .edit-overlay-dash {
+      color: var(--sand-7);
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .edit-overlay-save {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.00) 50%), var(--primary);
+      box-shadow: 0 2px 4px -1.5px rgba(0, 0, 0, 0.24), 0 0 0 1px rgba(0, 0, 0, 0.16);
+      color: #FFF;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: filter 0.15s;
+    }
+
+    .edit-overlay-save:hover {
+      filter: brightness(0.95);
+    }
+
+    .edit-overlay-cancel {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      background: #FFF;
+      box-shadow: var(--shadow-card);
+      color: var(--font-default);
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: filter 0.15s;
+    }
+
+    .edit-overlay-cancel:hover {
+      filter: brightness(0.97);
+    }
+
+    .edit-overlay-delete {
+      background: none;
+      border: none;
+      color: var(--error);
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      padding: 4px;
+      text-align: center;
+    }
+
+    .edit-overlay-delete:hover {
+      text-decoration: underline;
+    }
+
+    /* Add Menu Dropdown */
+    .add-menu-wrapper {
+      position: relative;
+    }
+
+    .add-menu {
+      position: absolute;
+      top: calc(100% + 6px);
+      right: -8px;
+      width: 200px;
+      background: #FFF;
+      border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.08);
+      padding: 6px;
+      z-index: 100;
+      opacity: 0;
+      transform: translateY(-4px);
+      transition: opacity 0.15s ease, transform 0.15s ease;
+    }
+
+    .add-menu.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .add-menu-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding: 10px 12px;
+      border: none;
+      background: none;
+      border-radius: 7px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--font-default);
+      cursor: pointer;
+      transition: background 0.1s;
+    }
+
+    .add-menu-item:hover {
+      background: var(--sand-2);
+    }
+
+    .add-menu-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 20px;
+      background: #1A1A18;
+      color: #FFF;
+      border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      z-index: 2000;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .toast.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .toast-undo {
+      color: #6DB3F2;
+      background: none;
+      border: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0;
+      white-space: nowrap;
+    }
+
+    .toast-undo:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <div class="sidebar-logo">
+        <img src="assets/logo.svg" width="36" height="36">
+      </div>
+
+      <div class="sidebar-nav">
+        <div class="nav-item" title="Bible">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8D8D86" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+          </svg>
+        </div>
+        <div class="nav-item active" title="Users">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#21201C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 21a8 8 0 0 0-16 0"/>
+            <circle cx="10" cy="8" r="5"/>
+            <path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="sidebar-avatar"></div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Top section: spans full width -->
+      <div class="top-section">
+        <!-- Back button -->
+        <a href="#" class="back-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 12H5"/>
+            <path d="m12 19-7-7 7-7"/>
+          </svg>
+          Back
+        </a>
+
+        <!-- Session Header -->
+        <div class="session-header">
+          <div class="calendar-icon" id="calendar-icon">
+            <div class="calendar-icon-month" id="calendar-icon-month">APR</div>
+            <div class="calendar-icon-day" id="calendar-icon-day">14</div>
+          </div>
+          <div class="session-info">
+            <div class="session-time" id="session-time">Saturday, April 14th <span class="dot"></span> 6:30am - 7:30am</div>
+            <h1 class="session-title" id="session-title">Brushy Bend Bible Club</h1>
+          </div>
+          <div class="header-actions" id="header-actions">
+            <button class="btn btn-secondary" id="session-edit-btn"><img class="btn-icon" src="assets/icons/edit.svg" width="20" height="20">Edit</button>
+            <button class="btn btn-primary" id="session-start-btn">
+              <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="6 3 20 12 6 21 6 3"/>
+              </svg>
+              Start Session
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Two-column layout -->
+      <div class="columns">
+      <div class="content-area">
+        <!-- RSVP Card -->
+        <div class="card rsvp-card">
+          <div class="rsvp-header">
+            <div class="rsvp-header-title" id="rsvp-header-title">Are you going?</div>
+            <div class="rsvp-actions">
+              <div class="rsvp-choices" id="rsvp-choices">
+                <button class="btn btn-secondary" style="padding: 8px 16px;" data-rsvp="attending">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#35944B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"/>
+                  </svg>
+                  Attending
+                </button>
+                <button class="btn btn-secondary" style="padding: 8px 16px;" data-rsvp="not-attending">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C32424" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                  </svg>
+                  Not Attending
+                </button>
+              </div>
+              <button class="rsvp-status-btn" id="rsvp-status-btn" style="display:none">
+                <svg class="rsvp-status-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></svg>
+                <span class="rsvp-status-label"></span>
+                <svg class="rsvp-status-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+              </button>
+              <div class="rsvp-dropdown" id="rsvp-dropdown">
+                <button class="rsvp-dropdown-item" data-value="attending">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#35944B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  Attending
+                  <svg class="rsvp-dropdown-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
+                <button class="rsvp-dropdown-item" data-value="not-attending">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C32424" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                  Not Attending
+                  <svg class="rsvp-dropdown-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="rsvp-footer">
+            <div class="avatar-stack">
+              <div class="avatar-stack-item">AD</div>
+              <div class="avatar-stack-item">MK</div>
+              <div class="avatar-stack-item">CS</div>
+              <div class="avatar-stack-item">JR</div>
+              <div class="avatar-stack-item">+8</div>
+            </div>
+            <div class="rsvp-footer-text">Michael, Chris, and 10 others attending</div>
+            <a href="#" class="link">View attendance</a>
+          </div>
+        </div>
+
+        <!-- Agenda Section -->
+        <div class="agenda-section">
+          <div class="agenda-header">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 3h20"/>
+              <path d="M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3"/>
+              <path d="m7 21 5-5 5 5"/>
+            </svg>
+            <span class="agenda-label">Agenda</span>
+            <span class="agenda-total">63 minutes total</span>
+            <div class="add-menu-wrapper">
+              <button class="btn btn-secondary btn-small add-menu-trigger"><img class="btn-icon" src="assets/icons/Add.svg" width="16" height="16">Add</button>
+              <div class="add-menu" style="display:none">
+                <button class="add-menu-item" data-type="image">
+                  <span class="add-menu-icon" style="background:#E7F0E9"><img src="assets/icons/Image.svg" width="16" height="16"></span>
+                  Image
+                </button>
+                <button class="add-menu-item" data-type="presentation">
+                  <span class="add-menu-icon" style="background:#F9EFDA"><img src="assets/icons/Presentation.svg" width="16" height="16"></span>
+                  Presentation
+                </button>
+                <button class="add-menu-item" data-type="scripture">
+                  <span class="add-menu-icon" style="background:#FBEAEA"><img src="assets/icons/Scripture.svg" width="16" height="16"></span>
+                  Scripture
+                </button>
+                <button class="add-menu-item" data-type="video">
+                  <span class="add-menu-icon" style="background:#F1EAFB"><img src="assets/icons/Video.svg" width="16" height="16"></span>
+                  Video
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="agenda-list">
+            <div class="agenda-empty" id="agenda-empty">
+              <div class="agenda-empty-text">Now the agenda was formless and empty.</div>
+              <div class="agenda-empty-sub">Add an item to bring order to the void.</div>
+            </div>
+            <!-- Item 1: Intro to PRS (Image) - Fixed -->
+            <div class="agenda-item agenda-item-fixed">
+              <img class="agenda-grip" src="assets/icons/li_grip-vertical.svg" width="16" height="16" aria-hidden="true">
+              <div class="agenda-thumb agenda-thumb-image">
+                <div class="agenda-thumb-placeholder">
+                  <img src="assets/images/peaceful-4.jpg" alt="Intro to PRS">
+                </div>
+                <div class="agenda-thumb-badge">
+                  <img src="assets/icons/Image.svg" width="16" height="16">
+                </div>
+              </div>
+              <div class="agenda-item-info">
+                <div class="agenda-item-title">Intro to PRS</div>
+                <div class="agenda-item-meta">
+                  <span class="agenda-item-duration">8 min</span>
+                  <span class="dot"></span>
+                  <span class="agenda-item-type">Image</span>
+                </div>
+              </div>
+              <div class="agenda-item-actions">
+                <button class="btn btn-secondary btn-small"><img class="btn-icon" src="assets/icons/edit.svg" width="16" height="16">Edit</button>
+              </div>
+            </div>
+
+            <!-- Item 2: Psalms 1 (Scripture) -->
+            <div class="agenda-item" draggable="true">
+              <img class="agenda-grip" src="assets/icons/li_grip-vertical.svg" width="16" height="16" aria-hidden="true">
+              <div class="agenda-thumb agenda-thumb-scripture">
+                <div class="agenda-thumb-placeholder">
+                  <img src="assets/images/scripture.png" alt="Scripture">
+                </div>
+                <div class="agenda-thumb-badge">
+                  <img src="assets/icons/Scripture.svg" width="16" height="16">
+                </div>
+              </div>
+              <div class="agenda-item-info">
+                <div class="agenda-item-title">Psalms 1</div>
+                <div class="agenda-item-meta">
+                  <span class="agenda-item-duration">8 min</span>
+                  <span class="dot"></span>
+                  <span class="agenda-item-type">Scripture</span>
+                </div>
+              </div>
+              <div class="agenda-item-actions">
+                <button class="btn btn-secondary btn-small"><img class="btn-icon" src="assets/icons/edit.svg" width="16" height="16">Edit</button>
+              </div>
+            </div>
+
+            <!-- Item 3: The Bible Project - Genesis (Video) -->
+            <div class="agenda-item" draggable="true">
+              <img class="agenda-grip" src="assets/icons/li_grip-vertical.svg" width="16" height="16" aria-hidden="true">
+              <div class="agenda-thumb agenda-thumb-video">
+                <div class="agenda-thumb-placeholder">
+                  <img src="assets/images/bible-project-1.jpg" alt="The Bible Project - Genesis">
+                </div>
+                <div class="agenda-thumb-badge">
+                  <img src="assets/icons/Video.svg" width="16" height="16">
+                </div>
+              </div>
+              <div class="agenda-item-info">
+                <div class="agenda-item-title">The Bible Project - Genesis</div>
+                <div class="agenda-item-meta">
+                  <span class="agenda-item-duration">8 min</span>
+                  <span class="dot"></span>
+                  <span class="agenda-item-type">Video</span>
+                </div>
+              </div>
+              <div class="agenda-item-actions">
+                <button class="btn btn-secondary btn-small"><img class="btn-icon" src="assets/icons/edit.svg" width="16" height="16">Edit</button>
+              </div>
+            </div>
+
+            <!-- Item 4: Genesis 1-3 (Scripture) -->
+            <div class="agenda-item" draggable="true">
+              <img class="agenda-grip" src="assets/icons/li_grip-vertical.svg" width="16" height="16" aria-hidden="true">
+              <div class="agenda-thumb agenda-thumb-scripture">
+                <div class="agenda-thumb-placeholder">
+                  <img src="assets/images/scripture.png" alt="Scripture">
+                </div>
+                <div class="agenda-thumb-badge">
+                  <img src="assets/icons/Scripture.svg" width="16" height="16">
+                </div>
+              </div>
+              <div class="agenda-item-info">
+                <div class="agenda-item-title">Genesis 1–3</div>
+                <div class="agenda-item-meta">
+                  <span class="agenda-item-duration">8 min</span>
+                  <span class="dot"></span>
+                  <span class="agenda-item-type">Scripture</span>
+                </div>
+              </div>
+              <div class="agenda-item-actions">
+                <button class="btn btn-secondary btn-small"><img class="btn-icon" src="assets/icons/edit.svg" width="16" height="16">Edit</button>
+              </div>
+            </div>
+
+            <!-- Item 5: The Bible Project - Matthew (Video) -->
+            <div class="agenda-item" draggable="true">
+              <img class="agenda-grip" src="assets/icons/li_grip-vertical.svg" width="16" height="16" aria-hidden="true">
+              <div class="agenda-thumb agenda-thumb-video">
+                <div class="agenda-thumb-placeholder">
+                  <img src="assets/images/bible-project-5.jpg" alt="The Bible Project - Matthew">
+                </div>
+                <div class="agenda-thumb-badge">
+                  <img src="assets/icons/Video.svg" width="16" height="16">
+                </div>
+              </div>
+              <div class="agenda-item-info">
+                <div class="agenda-item-title">The Bible Project - Matthew</div>
+                <div class="agenda-item-meta">
+                  <span class="agenda-item-duration">8 min</span>
+                  <span class="dot"></span>
+                  <span class="agenda-item-type">Video</span>
+                </div>
+              </div>
+              <div class="agenda-item-actions">
+                <button class="btn btn-secondary btn-small"><img class="btn-icon" src="assets/icons/edit.svg" width="16" height="16">Edit</button>
+              </div>
+            </div>
+
+            <!-- Item 6: Matthew 1-4 (Scripture) -->
+            <div class="agenda-item" draggable="true">
+              <img class="agenda-grip" src="assets/icons/li_grip-vertical.svg" width="16" height="16" aria-hidden="true">
+              <div class="agenda-thumb agenda-thumb-scripture">
+                <div class="agenda-thumb-placeholder">
+                  <img src="assets/images/scripture.png" alt="Scripture">
+                </div>
+                <div class="agenda-thumb-badge">
+                  <img src="assets/icons/Scripture.svg" width="16" height="16">
+                </div>
+              </div>
+              <div class="agenda-item-info">
+                <div class="agenda-item-title">Matthew 1 - 4</div>
+                <div class="agenda-item-meta">
+                  <span class="agenda-item-duration">8 min</span>
+                  <span class="dot"></span>
+                  <span class="agenda-item-type">Scripture</span>
+                </div>
+              </div>
+              <div class="agenda-item-actions">
+                <button class="btn btn-secondary btn-small"><img class="btn-icon" src="assets/icons/edit.svg" width="16" height="16">Edit</button>
+              </div>
+            </div>
+
+            <!-- Item 7: Intro to Old Testament (Presentation) -->
+            <div class="agenda-item" draggable="true">
+              <img class="agenda-grip" src="assets/icons/li_grip-vertical.svg" width="16" height="16" aria-hidden="true">
+              <div class="agenda-thumb agenda-thumb-presentation">
+                <div class="agenda-thumb-placeholder">
+                  <img src="assets/images/scripture.png" alt="Presentation">
+                </div>
+                <div class="agenda-thumb-badge">
+                  <img src="assets/icons/Presentation.svg" width="16" height="16">
+                </div>
+              </div>
+              <div class="agenda-item-info">
+                <div class="agenda-item-title">Intro to Old Testament</div>
+                <div class="agenda-item-meta">
+                  <span class="agenda-item-duration">8 min</span>
+                  <span class="dot"></span>
+                  <span class="agenda-item-type">Presentation</span>
+                </div>
+              </div>
+              <div class="agenda-item-actions">
+                <button class="btn btn-secondary btn-small"><img class="btn-icon" src="assets/icons/edit.svg" width="16" height="16">Edit</button>
+              </div>
+            </div>
+
+            <!-- Item 8: Lead your own PRS (Image) - Fixed -->
+            <div class="agenda-item agenda-item-fixed">
+              <img class="agenda-grip" src="assets/icons/li_grip-vertical.svg" width="16" height="16" aria-hidden="true">
+              <div class="agenda-thumb agenda-thumb-image">
+                <div class="agenda-thumb-placeholder">
+                  <img src="assets/images/peaceful-7.jpg" alt="Outro to PRS">
+                </div>
+                <div class="agenda-thumb-badge">
+                  <img src="assets/icons/Image.svg" width="16" height="16">
+                </div>
+              </div>
+              <div class="agenda-item-info">
+                <div class="agenda-item-title">Outro to PRS</div>
+                <div class="agenda-item-meta">
+                  <span class="agenda-item-duration">7 min</span>
+                  <span class="dot"></span>
+                  <span class="agenda-item-type">Image</span>
+                </div>
+              </div>
+              <div class="agenda-item-actions">
+                <button class="btn btn-secondary btn-small"><img class="btn-icon" src="assets/icons/edit.svg" width="16" height="16">Edit</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="agenda-footer">
+            <span class="learn-more-text">
+              This is a Public Reading of Scripture. <a href="#" class="link">Learn more</a>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Panel -->
+      <div class="right-panel">
+        <!-- Location Card -->
+        <div class="card location-card">
+          <img
+            class="location-image"
+            src="assets/images/map-placeholder.jpg"
+            alt="Map showing location"
+          />
+          <div class="location-details">
+            <div id="location-display">
+              <div class="location-address" id="location-address">1234 Brushy Creek Lane<br>Austin, Texas 81239</div>
+              <button class="btn btn-secondary">
+                Get Directions
+              </button>
+            </div>
+            <div id="location-edit" style="display:none">
+              <label style="font-size:12px; font-weight:500; color:var(--font-tertiary); margin-bottom:4px; display:block;">Street Address</label>
+              <input class="session-edit-input input-field" id="location-street-input" value="1234 Brushy Creek Lane" style="margin-bottom:8px" />
+              <label style="font-size:12px; font-weight:500; color:var(--font-tertiary); margin-bottom:4px; display:block;">City, State, Zip</label>
+              <input class="session-edit-input input-field" id="location-city-input" value="Austin, Texas 81239" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Virtual Meeting Card -->
+        <div class="card virtual-card" id="virtual-card">
+          <div class="virtual-title">Meet Virtually</div>
+          <div id="zoom-display">
+            <button class="btn btn-secondary">
+              <img class="btn-icon" src="assets/icons/Zoom.svg" width="20" height="20">
+              Join via Zoom
+            </button>
+          </div>
+          <div id="zoom-edit" style="display:none">
+            <label style="font-size:12px; font-weight:500; color:var(--font-tertiary); margin-bottom:4px; display:block;">Zoom Link</label>
+            <input class="session-edit-input input-field" id="zoom-input" value="https://zoom.us/j/123456789" />
+          </div>
+        </div>
+      </div>
+    </div><!-- end columns -->
+    </div>
+  </div>
+  <script>
+    const list = document.querySelector('.agenda-list');
+    let dragState = null;
+
+    function startDrag(item, e) {
+      const rect = item.getBoundingClientRect();
+
+      // Create floating clone that follows the pointer
+      const clone = item.cloneNode(true);
+      clone.style.cssText = `
+        position: fixed;
+        left: ${rect.left}px;
+        top: ${rect.top}px;
+        width: ${rect.width}px;
+        z-index: 9999;
+        pointer-events: none;
+        border-radius: 10px;
+        background: #FFF;
+        box-shadow: 0 12px 28px rgba(0,0,0,0.18), 0 0 0 1px rgba(0,0,0,0.08);
+        will-change: transform;
+      `;
+      // Show grip on clone, hide actions
+      const cloneGrip = clone.querySelector('.agenda-grip');
+      if (cloneGrip) cloneGrip.style.opacity = '1';
+      const cloneActions = clone.querySelector('.agenda-item-actions');
+      if (cloneActions) cloneActions.style.opacity = '0';
+      document.body.appendChild(clone);
+
+      // Create a placeholder that holds open space in the list
+      const placeholder = document.createElement('div');
+      placeholder.className = 'drag-placeholder';
+      placeholder.style.height = rect.height + 'px';
+
+      // Swap: put placeholder where item was, remove item from DOM
+      item.parentNode.insertBefore(placeholder, item);
+      item.remove();
+
+      dragState = {
+        item,
+        clone,
+        placeholder,
+        offsetX: e.clientX - rect.left,
+        offsetY: e.clientY - rect.top,
+      };
+
+      // Suppress hover effects and dim other items during drag
+      list.querySelectorAll('.agenda-item').forEach(el => {
+        el.classList.add('no-hover', 'drag-dimmed');
+      });
+      document.body.style.cursor = 'grabbing';
+      document.body.style.userSelect = 'none';
+      document.body.style.webkitUserSelect = 'none';
+
+      document.addEventListener('pointermove', onPointerMove);
+      document.addEventListener('pointerup', onPointerUp);
+    }
+
+    function onPointerMove(e) {
+      if (!dragState) return;
+
+      const { clone, placeholder, offsetX, offsetY } = dragState;
+
+      // Move the floating clone with the pointer
+      clone.style.left = (e.clientX - offsetX) + 'px';
+      clone.style.top = (e.clientY - offsetY) + 'px';
+
+      // Figure out where the placeholder should go based on cursor Y
+      const items = [...list.querySelectorAll('.agenda-item')];
+      if (items.length === 0) return;
+
+      let insertBefore = null;
+      for (const el of items) {
+        const r = el.getBoundingClientRect();
+        if (e.clientY < r.top + r.height / 2) {
+          insertBefore = el;
+          break;
+        }
+      }
+
+      // Can't drop before the first fixed item
+      if (insertBefore && insertBefore === items[0] && insertBefore.classList.contains('agenda-item-fixed')) {
+        insertBefore = items[1] || null;
+      }
+
+      // Can't drop after the last fixed item
+      if (!insertBefore) {
+        const last = items[items.length - 1];
+        if (last.classList.contains('agenda-item-fixed')) {
+          insertBefore = last;
+        }
+      }
+
+      // Skip if placeholder is already in the right spot
+      if (insertBefore) {
+        if (placeholder.nextElementSibling === insertBefore) return;
+      } else {
+        if (!placeholder.nextElementSibling) return;
+      }
+
+      // FLIP: clear any running animations and record clean positions
+      const children = [...list.children];
+      children.forEach(el => {
+        el.style.transition = 'none';
+        el.style.transform = '';
+      });
+
+      const oldRects = new Map();
+      children.forEach(el => oldRects.set(el, el.getBoundingClientRect()));
+
+      // Move the placeholder in the DOM
+      if (insertBefore) {
+        list.insertBefore(placeholder, insertBefore);
+      } else {
+        list.appendChild(placeholder);
+      }
+
+      // Set inverse transforms so items appear to stay where they were
+      children.forEach(el => {
+        const oldRect = oldRects.get(el);
+        if (!oldRect) return;
+        const newRect = el.getBoundingClientRect();
+        const dy = oldRect.top - newRect.top;
+        if (Math.abs(dy) > 1) {
+          el.style.transform = `translateY(${dy}px)`;
+        }
+      });
+
+      // Force the browser to commit, then animate to final positions
+      void list.offsetHeight;
+
+      children.forEach(el => {
+        el.style.transition = 'transform 0.2s cubic-bezier(0.2, 0, 0, 1)';
+        el.style.transform = '';
+      });
+    }
+
+    function onPointerUp() {
+      if (!dragState) return;
+
+      const { item, clone, placeholder } = dragState;
+
+      document.removeEventListener('pointermove', onPointerMove);
+      document.removeEventListener('pointerup', onPointerUp);
+      document.body.style.cursor = '';
+      document.body.style.userSelect = '';
+      document.body.style.webkitUserSelect = '';
+
+      // Animate clone from wherever it is to the placeholder slot
+      const targetRect = placeholder.getBoundingClientRect();
+      const cloneRect = clone.getBoundingClientRect();
+      const dx = targetRect.left - cloneRect.left;
+      const dy = targetRect.top - cloneRect.top;
+
+      let done = false;
+      function finalize() {
+        if (done) return;
+        done = true;
+
+        // Re-insert the real item where the placeholder is, clean up
+        placeholder.parentNode.insertBefore(item, placeholder);
+        placeholder.remove();
+        clone.remove();
+
+        // Clear any leftover transforms on list children
+        [...list.children].forEach(el => {
+          el.style.transition = '';
+          el.style.transform = '';
+        });
+
+        // Restore opacity smoothly, then re-enable hover
+        list.querySelectorAll('.agenda-item').forEach(el => {
+          el.style.transition = 'opacity 0.35s ease';
+          el.classList.remove('drag-dimmed');
+          el.classList.add('no-hover');
+          el.addEventListener('transitionend', () => {
+            el.style.transition = '';
+          }, { once: true });
+          el.addEventListener('mouseenter', () => el.classList.remove('no-hover'), { once: true });
+        });
+
+        dragState = null;
+      }
+
+      // If already right on top, skip the animation
+      if (Math.abs(dx) < 1 && Math.abs(dy) < 1) {
+        finalize();
+        return;
+      }
+
+      clone.style.transition = 'transform 0.25s cubic-bezier(0.2, 0, 0, 1)';
+      clone.style.transform = `translate(${dx}px, ${dy}px)`;
+      clone.addEventListener('transitionend', finalize, { once: true });
+      setTimeout(finalize, 300);
+    }
+
+    // Initialize: replace native drag with pointer-event drag
+    list.querySelectorAll('.agenda-item[draggable="true"]').forEach(item => {
+      item.removeAttribute('draggable');
+      item.addEventListener('pointerdown', e => {
+        if (e.target.closest('.agenda-item-actions')) return;
+        e.preventDefault();
+        startDrag(item, e);
+      });
+    });
+
+    // --- Edit Overlay ---
+    const typeConfig = {
+      scripture: {
+        label: 'Scripture',
+        iconBg: '#FBEAEA',
+        iconSvg: '<img src="assets/icons/Scripture.svg" width="16" height="16">',
+      },
+      video: {
+        label: 'Video',
+        iconBg: '#F1EAFB',
+        iconSvg: '<img src="assets/icons/Video.svg" width="16" height="16">',
+      },
+      image: {
+        label: 'Image',
+        iconBg: '#E7F0E9',
+        iconSvg: '<img src="assets/icons/Image.svg" width="16" height="16">',
+      },
+      presentation: {
+        label: 'Presentation',
+        iconBg: '#F9EFDA',
+        iconSvg: '<img src="assets/icons/Presentation.svg" width="16" height="16">',
+      },
+    };
+
+    const bibleBooks = [
+      'Genesis','Exodus','Leviticus','Numbers','Deuteronomy','Joshua','Judges','Ruth',
+      '1 Samuel','2 Samuel','1 Kings','2 Kings','1 Chronicles','2 Chronicles',
+      'Ezra','Nehemiah','Esther','Job','Psalms','Proverbs','Ecclesiastes',
+      'Song of Solomon','Isaiah','Jeremiah','Lamentations','Ezekiel','Daniel',
+      'Hosea','Joel','Amos','Obadiah','Jonah','Micah','Nahum','Habakkuk',
+      'Zephaniah','Haggai','Zechariah','Malachi',
+      'Matthew','Mark','Luke','John','Acts','Romans',
+      '1 Corinthians','2 Corinthians','Galatians','Ephesians','Philippians',
+      'Colossians','1 Thessalonians','2 Thessalonians','1 Timothy','2 Timothy',
+      'Titus','Philemon','Hebrews','James','1 Peter','2 Peter',
+      '1 John','2 John','3 John','Jude','Revelation',
+    ];
+
+    // Create overlay elements
+    const editBackdrop = document.createElement('div');
+    editBackdrop.className = 'edit-overlay-backdrop';
+    document.body.appendChild(editBackdrop);
+
+    const editOverlay = document.createElement('div');
+    editOverlay.className = 'edit-overlay';
+    document.body.appendChild(editOverlay);
+
+    let activeEditItem = null;
+
+    function getItemType(agendaItem) {
+      const thumb = agendaItem.querySelector('.agenda-thumb');
+      if (thumb.classList.contains('agenda-thumb-scripture')) return 'scripture';
+      if (thumb.classList.contains('agenda-thumb-video')) return 'video';
+      if (thumb.classList.contains('agenda-thumb-image')) return 'image';
+      if (thumb.classList.contains('agenda-thumb-presentation')) return 'presentation';
+      return 'scripture';
+    }
+
+    function buildOverlayHTML(type, title) {
+      const cfg = typeConfig[type] || typeConfig.scripture;
+
+      // Header + icon (shared by all types)
+      let html = `
+        <div class="edit-overlay-header">
+          <div class="edit-overlay-title">${cfg.label}</div>
+          <div class="edit-overlay-type-icon" style="background:${cfg.iconBg}">${cfg.iconSvg}</div>
+        </div>`;
+
+      if (type === 'scripture') {
+        // Parse book and chapters from title like "Genesis 1–3" or "Psalms 1"
+        const m = title.match(/^(.+?)\s+(\d+)\s*[-–—]\s*(\d+)$/);
+        const m2 = title.match(/^(.+?)\s+(\d+)$/);
+        let book = '', startCh = 1, endCh = 1;
+        if (m) { book = m[1]; startCh = +m[2]; endCh = +m[3]; }
+        else if (m2) { book = m2[1]; startCh = +m2[2]; endCh = startCh; }
+
+        const bookOpts = bibleBooks.map(b =>
+          `<option${b === book ? ' selected' : ''}>${b}</option>`
+        ).join('');
+
+        const chOpts = (sel) => {
+          let s = '';
+          for (let i = 1; i <= 150; i++) s += `<option${i === sel ? ' selected' : ''}>Ch. ${i}</option>`;
+          return s;
+        };
+
+        html += `
+          <select class="edit-overlay-select">${bookOpts}</select>
+          <div class="edit-overlay-field">
+            <div class="edit-overlay-label">Chapters</div>
+            <div class="edit-overlay-chapters">
+              <select class="edit-overlay-select">${chOpts(startCh)}</select>
+              <span class="edit-overlay-dash">—</span>
+              <select class="edit-overlay-select">${chOpts(endCh)}</select>
+            </div>
+          </div>`;
+      } else {
+        // Generic name field for non-scripture types
+        html += `
+          <div class="edit-overlay-field">
+            <div class="edit-overlay-label">Name</div>
+            <input class="edit-overlay-select" style="cursor:text" type="text" value="${title}">
+          </div>`;
+      }
+
+      html += `
+        <button class="edit-overlay-save">Save changes</button>
+        <button class="edit-overlay-cancel">Cancel</button>
+        <button class="edit-overlay-delete">Delete from agenda</button>`;
+
+      return html;
+    }
+
+    function openEditOverlay(agendaItem) {
+      // If clicking the same item, toggle off
+      if (activeEditItem === agendaItem) {
+        closeEditOverlay();
+        return;
+      }
+
+      // Clear previous editing state
+      if (activeEditItem) activeEditItem.classList.remove('editing');
+
+      const type = getItemType(agendaItem);
+      const title = agendaItem.querySelector('.agenda-item-title').textContent;
+
+      editOverlay.innerHTML = buildOverlayHTML(type, title);
+
+      // Position to the right of the agenda list, aligned with the item
+      const itemRect = agendaItem.getBoundingClientRect();
+      const listRect = agendaItem.closest('.agenda-list').getBoundingClientRect();
+
+      editOverlay.style.display = 'flex';
+      editBackdrop.style.display = 'block';
+
+      // Clamp top so it doesn't go off-screen
+      const overlayHeight = editOverlay.offsetHeight;
+      let top = itemRect.top + (itemRect.height / 2) - (overlayHeight / 2);
+      top = Math.max(8, Math.min(top, window.innerHeight - overlayHeight - 8));
+
+      editOverlay.style.top = top + 'px';
+      editOverlay.style.left = (listRect.right + 16) + 'px';
+
+      activeEditItem = agendaItem;
+      agendaItem.classList.add('editing');
+
+      // Point the arrow at the item's vertical center
+      const arrowY = (itemRect.top + itemRect.height / 2) - top;
+      editOverlay.style.setProperty('--arrow-y', arrowY + 'px');
+
+      // Animate in
+      requestAnimationFrame(() => editOverlay.classList.add('visible'));
+
+      // Wire close buttons
+      editOverlay.querySelector('.edit-overlay-cancel').addEventListener('click', closeEditOverlay);
+      editOverlay.querySelector('.edit-overlay-save').addEventListener('click', closeEditOverlay);
+      editOverlay.querySelector('.edit-overlay-delete').addEventListener('click', deleteFromAgenda);
+    }
+
+    function closeEditOverlay() {
+      editOverlay.classList.remove('visible');
+      if (activeEditItem) activeEditItem.classList.remove('editing');
+      activeEditItem = null;
+      setTimeout(() => {
+        editOverlay.style.display = 'none';
+        editBackdrop.style.display = 'none';
+      }, 200);
+    }
+
+    editBackdrop.addEventListener('click', closeEditOverlay);
+
+    // Attach to all Edit buttons (using event delegation on the list)
+    list.addEventListener('click', e => {
+      const btn = e.target.closest('.agenda-item-actions .btn');
+      if (!btn) return;
+      e.stopPropagation();
+      const agendaItem = btn.closest('.agenda-item');
+      openEditOverlay(agendaItem);
+    });
+
+    // --- Add Menu Dropdown ---
+    const addTrigger = document.querySelector('.add-menu-trigger');
+    const addMenu = document.querySelector('.add-menu');
+    let addMenuOpen = false;
+
+    addTrigger.addEventListener('click', e => {
+      e.stopPropagation();
+      if (addMenuOpen) {
+        closeAddMenu();
+      } else {
+        openAddMenu();
+      }
+    });
+
+    function openAddMenu() {
+      addMenu.style.display = 'block';
+      addMenuOpen = true;
+      requestAnimationFrame(() => addMenu.classList.add('visible'));
+      document.addEventListener('click', onAddMenuOutsideClick);
+    }
+
+    function closeAddMenu() {
+      addMenu.classList.remove('visible');
+      addMenuOpen = false;
+      document.removeEventListener('click', onAddMenuOutsideClick);
+      setTimeout(() => { addMenu.style.display = 'none'; }, 150);
+    }
+
+    function onAddMenuOutsideClick(e) {
+      if (!addMenu.contains(e.target) && e.target !== addTrigger) {
+        closeAddMenu();
+      }
+    }
+
+    addMenu.querySelectorAll('.add-menu-item').forEach(item => {
+      item.addEventListener('click', () => {
+        closeAddMenu();
+      });
+    });
+
+    // --- RSVP Response ---
+    const rsvpChoices = document.getElementById('rsvp-choices');
+    const rsvpStatusBtn = document.getElementById('rsvp-status-btn');
+    const rsvpStatusIcon = rsvpStatusBtn.querySelector('.rsvp-status-icon');
+    const rsvpStatusLabel = rsvpStatusBtn.querySelector('.rsvp-status-label');
+    const rsvpDropdown = document.getElementById('rsvp-dropdown');
+    let rsvpState = null;
+    let rsvpDropdownOpen = false;
+
+    const rsvpIcons = {
+      attending: '<polyline points="20 6 9 17 4 12"/>',
+      'not-attending': '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>',
+    };
+
+    function updateStatusBtn(value) {
+      rsvpStatusIcon.innerHTML = rsvpIcons[value];
+      rsvpStatusLabel.textContent = value === 'attending' ? 'Attending' : 'Not Attending';
+      rsvpStatusBtn.classList.remove('attending', 'not-attending');
+      rsvpStatusBtn.classList.add(value);
+    }
+
+    function respondRsvp(value) {
+      const isFirst = rsvpState === null;
+      const isSwitch = !isFirst && rsvpState !== value;
+      rsvpState = value;
+
+      // Update dropdown current indicator
+      rsvpDropdown.querySelectorAll('.rsvp-dropdown-item').forEach(item => {
+        item.classList.toggle('current', item.dataset.value === value);
+      });
+
+      const headerTitle = document.getElementById('rsvp-header-title');
+      const titleText = value === 'attending' ? 'See you there!' : 'See you next time!';
+
+      if (isFirst) {
+        // Fade out the two-button chooser
+        rsvpChoices.classList.add('hiding');
+
+        setTimeout(() => {
+          rsvpChoices.style.display = 'none';
+          headerTitle.textContent = titleText;
+
+          // Prepare and show the status button
+          updateStatusBtn(value);
+          rsvpStatusBtn.style.display = '';
+          void rsvpStatusBtn.offsetHeight;
+
+          rsvpStatusBtn.classList.add('visible');
+
+          // Settle pulse after appearing
+          setTimeout(() => {
+            rsvpStatusBtn.classList.remove('settle');
+            void rsvpStatusBtn.offsetHeight;
+            rsvpStatusBtn.classList.add('settle');
+          }, 300);
+        }, 220);
+      } else if (isSwitch) {
+        // Crossfade the status button to new state
+        rsvpStatusBtn.classList.add('switching');
+        rsvpStatusBtn.classList.remove('settle');
+
+        setTimeout(() => {
+          updateStatusBtn(value);
+          headerTitle.textContent = titleText;
+          rsvpStatusBtn.classList.remove('switching');
+
+          // Settle pulse
+          setTimeout(() => {
+            rsvpStatusBtn.classList.remove('settle');
+            void rsvpStatusBtn.offsetHeight;
+            rsvpStatusBtn.classList.add('settle');
+          }, 250);
+        }, 170);
+      }
+    }
+
+    // Initial choice button clicks
+    rsvpChoices.querySelectorAll('[data-rsvp]').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        respondRsvp(btn.dataset.rsvp);
+      });
+    });
+
+    // Status button click → toggle dropdown
+    rsvpStatusBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      if (rsvpDropdownOpen) closeRsvpDropdown();
+      else openRsvpDropdown();
+    });
+
+    function openRsvpDropdown() {
+      rsvpDropdown.style.display = 'block';
+      rsvpDropdownOpen = true;
+      rsvpStatusBtn.classList.add('dropdown-open');
+      requestAnimationFrame(() => rsvpDropdown.classList.add('visible'));
+      document.addEventListener('click', onRsvpOutsideClick);
+    }
+
+    function closeRsvpDropdown() {
+      rsvpDropdown.classList.remove('visible');
+      rsvpStatusBtn.classList.remove('dropdown-open');
+      rsvpDropdownOpen = false;
+      document.removeEventListener('click', onRsvpOutsideClick);
+      setTimeout(() => { rsvpDropdown.style.display = 'none'; }, 150);
+    }
+
+    function onRsvpOutsideClick(e) {
+      if (!rsvpDropdown.contains(e.target) && e.target !== rsvpStatusBtn) {
+        closeRsvpDropdown();
+      }
+    }
+
+    rsvpDropdown.querySelectorAll('.rsvp-dropdown-item').forEach(item => {
+      item.addEventListener('click', e => {
+        e.stopPropagation();
+        const value = item.dataset.value;
+        closeRsvpDropdown();
+        if (value !== rsvpState) respondRsvp(value);
+      });
+    });
+
+    // --- Delete from Agenda + Toast ---
+    let toastEl = null;
+    let toastTimeout = null;
+    let undoData = null;
+    const agendaEmpty = document.getElementById('agenda-empty');
+
+    function checkAgendaEmpty() {
+      const hasItems = list.querySelector('.agenda-item');
+      if (!hasItems) {
+        agendaEmpty.style.display = 'flex';
+        requestAnimationFrame(() => agendaEmpty.classList.add('visible'));
+      } else {
+        agendaEmpty.classList.remove('visible');
+        agendaEmpty.style.display = 'none';
+      }
+    }
+
+    function deleteFromAgenda() {
+      const item = activeEditItem;
+      if (!item) return;
+
+      // Save undo data before closing overlay
+      const title = item.querySelector('.agenda-item-title').textContent;
+      const parent = item.parentNode;
+      const nextSibling = item.nextElementSibling;
+
+      closeEditOverlay();
+
+      // Phase 1: fade out
+      item.style.transition = 'opacity 0.2s ease';
+      item.style.opacity = '0';
+
+      setTimeout(() => {
+        // Phase 2: collapse height
+        const h = item.offsetHeight;
+        item.style.height = h + 'px';
+        item.style.overflow = 'hidden';
+        void item.offsetHeight;
+
+        item.style.transition = 'height 0.3s cubic-bezier(0.2, 0, 0, 1), padding 0.3s cubic-bezier(0.2, 0, 0, 1)';
+        item.style.height = '0';
+        item.style.padding = '0 12px';
+
+        setTimeout(() => {
+          item.remove();
+          // Reset inline styles so undo works cleanly
+          item.style.cssText = '';
+
+          undoData = { element: item, nextSibling, parent, title };
+          checkAgendaEmpty();
+          showToast(title);
+        }, 300);
+      }, 200);
+    }
+
+    function showToast(title) {
+      // Remove existing toast
+      if (toastEl) {
+        toastEl.remove();
+        clearTimeout(toastTimeout);
+      }
+
+      toastEl = document.createElement('div');
+      toastEl.className = 'toast';
+      toastEl.innerHTML = `
+        <span>${title} removed</span>
+        <button class="toast-undo">Undo</button>
+      `;
+      document.body.appendChild(toastEl);
+
+      toastEl.querySelector('.toast-undo').addEventListener('click', undoDelete);
+
+      requestAnimationFrame(() => toastEl.classList.add('visible'));
+
+      toastTimeout = setTimeout(dismissToast, 5000);
+    }
+
+    function dismissToast() {
+      if (!toastEl) return;
+      toastEl.classList.remove('visible');
+      const el = toastEl;
+      setTimeout(() => el.remove(), 250);
+      toastEl = null;
+      undoData = null;
+      clearTimeout(toastTimeout);
+    }
+
+    function undoDelete() {
+      if (!undoData) return;
+
+      const { element, nextSibling, parent } = undoData;
+
+      // Hide empty state immediately
+      agendaEmpty.classList.remove('visible');
+      agendaEmpty.style.display = 'none';
+
+      // Measure natural height off-screen
+      element.style.cssText = 'position:fixed; top:-9999px; visibility:hidden; pointer-events:none; height:auto; overflow:visible; width:' + parent.offsetWidth + 'px;';
+      document.body.appendChild(element);
+      const targetHeight = element.getBoundingClientRect().height;
+      element.remove();
+
+      // Set up the wrapper for a clean clip animation
+      const wrapper = document.createElement('div');
+      wrapper.style.cssText = 'height:0; overflow:hidden; transition: height 0.4s cubic-bezier(0.16, 1, 0.3, 1);';
+      element.style.cssText = 'opacity:0; transform:translateY(-8px); transition: opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s;';
+
+      // Insert wrapper at original position
+      if (nextSibling && nextSibling.parentNode === parent) {
+        parent.insertBefore(wrapper, nextSibling);
+      } else {
+        const lastFixed = parent.querySelector('.agenda-item-fixed:last-of-type');
+        if (lastFixed) {
+          parent.insertBefore(wrapper, lastFixed);
+        } else {
+          parent.appendChild(wrapper);
+        }
+      }
+      // Move element from its current position into the wrapper
+      if (element.parentNode) element.parentNode.removeChild(element);
+      wrapper.appendChild(element);
+      void wrapper.offsetHeight;
+
+      // Animate open
+      wrapper.style.height = targetHeight + 'px';
+      element.style.opacity = '1';
+      element.style.transform = 'translateY(0)';
+
+      // Clean up wrapper after animation
+      setTimeout(() => {
+        element.style.cssText = '';
+        wrapper.replaceWith(element);
+      }, 450);
+
+      // Dismiss toast immediately
+      if (toastEl) {
+        toastEl.classList.remove('visible');
+        const el = toastEl;
+        setTimeout(() => el.remove(), 250);
+        toastEl = null;
+      }
+      clearTimeout(toastTimeout);
+      undoData = null;
+    }
+    // --- Session Inline Edit ---
+    const sessionEditBtn = document.getElementById('session-edit-btn');
+    const sessionStartBtn = document.getElementById('session-start-btn');
+    const headerActions = document.getElementById('header-actions');
+    let sessionTime = document.getElementById('session-time');
+    let sessionTitle = document.getElementById('session-title');
+    const locationDisplay = document.getElementById('location-display');
+    const locationEdit = document.getElementById('location-edit');
+    const zoomDisplay = document.getElementById('zoom-display');
+    const zoomEdit = document.getElementById('zoom-edit');
+
+    let sessionEditing = false;
+    let savedValues = {};
+
+    const calendarMonth = document.getElementById('calendar-icon-month');
+    const calendarDay = document.getElementById('calendar-icon-day');
+    const MONTHS_SHORT = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+    const MONTHS_LONG = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    const DAYS_OF_WEEK = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+    function updateCalendarIcon() {
+      const dateInput = document.getElementById('session-date-input');
+      if (!dateInput) return;
+      const parts = dateInput.value.split('-');
+      if (parts.length === 3) {
+        const m = parseInt(parts[1], 10) - 1;
+        const d = parseInt(parts[2], 10);
+        calendarMonth.textContent = MONTHS_SHORT[m];
+        calendarDay.textContent = d;
+      }
+    }
+
+    function formatTimeDisplay(dateISO, startTime, endTime) {
+      const parts = dateISO.split('-');
+      const y = parseInt(parts[0], 10);
+      const m = parseInt(parts[1], 10) - 1;
+      const d = parseInt(parts[2], 10);
+      const date = new Date(y, m, d);
+      const dayName = DAYS_OF_WEEK[date.getDay()];
+      const monthName = MONTHS_LONG[m];
+
+      const suffix = d === 1 || d === 21 || d === 31 ? 'st' : d === 2 || d === 22 ? 'nd' : d === 3 || d === 23 ? 'rd' : 'th';
+
+      function fmtTime(t) {
+        const [h, min] = t.split(':').map(Number);
+        const ampm = h >= 12 ? 'pm' : 'am';
+        const h12 = h % 12 || 12;
+        return min === 0 ? h12 + ampm : h12 + ':' + String(min).padStart(2, '0') + ampm;
+      }
+
+      return `${dayName}, ${monthName} ${d}${suffix} <span class="dot"></span> ${fmtTime(startTime)} - ${fmtTime(endTime)}`;
+    }
+
+    function fmtDatePill(iso) {
+      const [y, m, d] = iso.split('-').map(Number);
+      const dt = new Date(y, m - 1, d);
+      return `${MONTHS_LONG[m - 1]} ${d}, ${y}`;
+    }
+
+    function fmtTimePill(t) {
+      const [h, min] = t.split(':').map(Number);
+      const ampm = h >= 12 ? 'PM' : 'AM';
+      const h12 = h % 12 || 12;
+      return min === 0 ? `${h12}:00 ${ampm}` : `${h12}:${String(min).padStart(2, '0')} ${ampm}`;
+    }
+
+    // --- Custom Calendar ---
+    let calendarEl = null;
+    let calViewYear, calViewMonth, calSelectedISO;
+
+    function toggleCalendar() {
+      closeAllDtPickers();
+      if (calendarEl) { closeCalendar(); return; }
+      const dateField = document.getElementById('session-date-field');
+      const iso = document.getElementById('session-date-input').value;
+      const [y, m] = iso.split('-').map(Number);
+      calViewYear = y; calViewMonth = m - 1; calSelectedISO = iso;
+      dateField.classList.add('active');
+
+      calendarEl = document.createElement('div');
+      calendarEl.className = 'dt-calendar';
+      dateField.appendChild(calendarEl);
+      renderCalendar();
+      requestAnimationFrame(() => calendarEl.classList.add('visible'));
+    }
+
+    function closeCalendar() {
+      if (!calendarEl) return;
+      document.getElementById('session-date-field')?.classList.remove('active');
+      calendarEl.classList.remove('visible');
+      const el = calendarEl; calendarEl = null;
+      setTimeout(() => el.remove(), 150);
+    }
+
+    function renderCalendar() {
+      if (!calendarEl) return;
+      const chevL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>';
+      const chevR = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>';
+
+      const firstDay = new Date(calViewYear, calViewMonth, 1).getDay();
+      const daysInMonth = new Date(calViewYear, calViewMonth + 1, 0).getDate();
+      const daysInPrev = new Date(calViewYear, calViewMonth, 0).getDate();
+
+      const todayISO = new Date().toISOString().slice(0, 10);
+
+      let daysHTML = '';
+      // Previous month padding
+      for (let i = firstDay - 1; i >= 0; i--) {
+        const d = daysInPrev - i;
+        daysHTML += `<button class="dt-cal-day other-month" data-date="${pad(calViewYear, calViewMonth - 1, d)}">${d}</button>`;
+      }
+      // Current month
+      for (let d = 1; d <= daysInMonth; d++) {
+        const iso = `${calViewYear}-${String(calViewMonth + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+        const cls = [iso === calSelectedISO ? 'selected' : '', iso === todayISO ? 'today' : ''].filter(Boolean).join(' ');
+        daysHTML += `<button class="dt-cal-day ${cls}" data-date="${iso}">${d}</button>`;
+      }
+      // Next month padding
+      const totalCells = firstDay + daysInMonth;
+      const remaining = (7 - (totalCells % 7)) % 7;
+      for (let d = 1; d <= remaining; d++) {
+        daysHTML += `<button class="dt-cal-day other-month" data-date="${pad(calViewYear, calViewMonth + 1, d)}">${d}</button>`;
+      }
+
+      calendarEl.innerHTML = `
+        <div class="dt-cal-header">
+          <span class="dt-cal-title">${MONTHS_LONG[calViewMonth]} ${calViewYear}</span>
+          <div class="dt-cal-nav">
+            <button id="dt-cal-prev">${chevL}</button>
+            <button id="dt-cal-next">${chevR}</button>
+          </div>
+        </div>
+        <div class="dt-cal-weekdays">
+          <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+        </div>
+        <div class="dt-cal-days">${daysHTML}</div>
+      `;
+
+      calendarEl.querySelector('#dt-cal-prev').addEventListener('click', (e) => {
+        e.stopPropagation();
+        calViewMonth--; if (calViewMonth < 0) { calViewMonth = 11; calViewYear--; }
+        renderCalendar();
+      });
+      calendarEl.querySelector('#dt-cal-next').addEventListener('click', (e) => {
+        e.stopPropagation();
+        calViewMonth++; if (calViewMonth > 11) { calViewMonth = 0; calViewYear++; }
+        renderCalendar();
+      });
+      calendarEl.querySelectorAll('.dt-cal-day').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const iso = btn.dataset.date;
+          calSelectedISO = iso;
+          document.getElementById('session-date-input').value = iso;
+          document.getElementById('session-date-label').textContent = fmtDatePill(iso);
+          updateCalendarIcon();
+          closeCalendar();
+        });
+      });
+    }
+
+    function pad(year, month, day) {
+      // Handle month overflow
+      const d = new Date(year, month, day);
+      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    }
+
+    // --- Custom Time Picker ---
+    let activeTimePicker = null;
+
+    function toggleTimePicker(which) {
+      closeAllDtPickers();
+      if (activeTimePicker === which) { activeTimePicker = null; return; }
+      activeTimePicker = which;
+
+      const field = document.getElementById(which === 'start' ? 'session-start-field' : 'session-end-field');
+      const hiddenInput = document.getElementById(which === 'start' ? 'session-start-time-input' : 'session-end-time-input');
+      const label = document.getElementById(which === 'start' ? 'session-start-label' : 'session-end-label');
+      const currentVal = hiddenInput.value;
+
+      field.classList.add('active');
+
+      const dropdown = document.createElement('div');
+      dropdown.className = 'dt-time-dropdown';
+      dropdown.id = 'dt-time-dropdown';
+
+      // Generate 15-min increments
+      for (let h = 0; h < 24; h++) {
+        for (let m = 0; m < 60; m += 15) {
+          const val = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+          const btn = document.createElement('button');
+          btn.className = 'dt-time-option' + (val === currentVal ? ' selected' : '');
+          btn.textContent = fmtTimePill(val);
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            hiddenInput.value = val;
+            label.textContent = fmtTimePill(val);
+            closeTimePicker();
+          });
+          dropdown.appendChild(btn);
+        }
+      }
+
+      field.appendChild(dropdown);
+      requestAnimationFrame(() => {
+        dropdown.classList.add('visible');
+        // Scroll to selected
+        const sel = dropdown.querySelector('.selected');
+        if (sel) sel.scrollIntoView({ block: 'center' });
+      });
+    }
+
+    function closeTimePicker() {
+      const dropdown = document.getElementById('dt-time-dropdown');
+      if (dropdown) {
+        dropdown.parentElement.classList.remove('active');
+        dropdown.classList.remove('visible');
+        setTimeout(() => dropdown.remove(), 150);
+      }
+      activeTimePicker = null;
+    }
+
+    function closeAllDtPickers() {
+      closeCalendar();
+      closeTimePicker();
+    }
+
+    // Close pickers when clicking outside
+    document.addEventListener('click', () => { if (sessionEditing) closeAllDtPickers(); });
+
+    sessionEditBtn.addEventListener('click', enterSessionEdit);
+
+    function enterSessionEdit() {
+      if (sessionEditing) return;
+      sessionEditing = true;
+
+      // Save current values for cancel
+      savedValues = {
+        time: sessionTime.textContent,
+        title: sessionTitle.textContent,
+        dateISO: savedValues.dateISO || '2025-04-14',
+        startTime: savedValues.startTime || '06:30',
+        endTime: savedValues.endTime || '07:30',
+        street: document.getElementById('location-street-input').value,
+        city: document.getElementById('location-city-input').value,
+        zoom: document.getElementById('zoom-input').value
+      };
+
+      // Replace date text with custom date + time pickers
+      const dtWrap = document.createElement('div');
+      dtWrap.className = 'session-datetime-edit';
+      dtWrap.id = 'session-time-input';
+
+      const _dateISO = savedValues.dateISO || '2025-04-14';
+      const _startTime = savedValues.startTime || '06:30';
+      const _endTime = savedValues.endTime || '07:30';
+
+      const calIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>';
+      const clockIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>';
+
+      dtWrap.innerHTML = `
+        <div class="session-dt-field" id="session-date-field">
+          ${calIcon}
+          <span id="session-date-label">${fmtDatePill(_dateISO)}</span>
+          <input type="hidden" id="session-date-input" value="${_dateISO}">
+        </div>
+        <div class="session-dt-field" id="session-start-field">
+          ${clockIcon}
+          <span id="session-start-label">${fmtTimePill(_startTime)}</span>
+          <input type="hidden" id="session-start-time-input" value="${_startTime}">
+        </div>
+        <span class="session-dt-sep">–</span>
+        <div class="session-dt-field" id="session-end-field">
+          <span id="session-end-label">${fmtTimePill(_endTime)}</span>
+          <input type="hidden" id="session-end-time-input" value="${_endTime}">
+        </div>
+      `;
+
+      sessionTime.replaceWith(dtWrap);
+
+      // Wire up custom pickers
+      const dateField = document.getElementById('session-date-field');
+      const startField = document.getElementById('session-start-field');
+      const endField = document.getElementById('session-end-field');
+
+      dateField.addEventListener('click', (e) => { e.stopPropagation(); toggleCalendar(); });
+      startField.addEventListener('click', (e) => { e.stopPropagation(); toggleTimePicker('start'); });
+      endField.addEventListener('click', (e) => { e.stopPropagation(); toggleTimePicker('end'); });
+
+      updateCalendarIcon();
+
+      // Replace title with input
+      const titleInput = document.createElement('input');
+      titleInput.className = 'session-edit-input input-title';
+      titleInput.id = 'session-title-input';
+      titleInput.value = sessionTitle.textContent;
+      sessionTitle.replaceWith(titleInput);
+
+      // Show location edit fields, hide display
+      locationDisplay.style.display = 'none';
+      locationEdit.style.display = 'block';
+
+      // Show zoom edit field, hide display
+      zoomDisplay.style.display = 'none';
+      zoomEdit.style.display = 'block';
+
+      // Swap header buttons
+      headerActions.innerHTML = `
+        <button class="btn btn-cancel" id="session-cancel-btn">Cancel</button>
+        <button class="btn btn-primary" id="session-save-btn">Save Changes</button>
+      `;
+
+      document.getElementById('session-cancel-btn').addEventListener('click', cancelSessionEdit);
+      document.getElementById('session-save-btn').addEventListener('click', saveSessionEdit);
+
+      // Focus the title
+      titleInput.focus();
+      titleInput.select();
+    }
+
+    function saveSessionEdit() {
+      closeAllDtPickers();
+      const dateVal = document.getElementById('session-date-input').value;
+      const startVal = document.getElementById('session-start-time-input').value;
+      const endVal = document.getElementById('session-end-time-input').value;
+      const titleVal = document.getElementById('session-title-input').value;
+      const streetVal = document.getElementById('location-street-input').value;
+      const cityVal = document.getElementById('location-city-input').value;
+
+      // Persist date/time for future edits
+      savedValues.dateISO = dateVal;
+      savedValues.startTime = startVal;
+      savedValues.endTime = endVal;
+
+      // Update calendar icon
+      const parts = dateVal.split('-');
+      calendarMonth.textContent = MONTHS_SHORT[parseInt(parts[1], 10) - 1];
+      calendarDay.textContent = parseInt(parts[2], 10);
+
+      const timeVal = formatTimeDisplay(dateVal, startVal, endVal);
+
+      // Restore text elements
+      restoreSessionDisplay(timeVal, titleVal);
+
+      // Update location
+      document.getElementById('location-address').innerHTML = streetVal + '<br>' + cityVal;
+
+      // Swap back to view mode
+      locationDisplay.style.display = '';
+      locationEdit.style.display = 'none';
+      zoomDisplay.style.display = '';
+      zoomEdit.style.display = 'none';
+
+      restoreHeaderButtons();
+      sessionEditing = false;
+    }
+
+    function cancelSessionEdit() {
+      closeAllDtPickers();
+      // Restore original values
+      restoreSessionDisplay(savedValues.time, savedValues.title);
+
+      // Restore calendar icon
+      const parts = savedValues.dateISO.split('-');
+      calendarMonth.textContent = MONTHS_SHORT[parseInt(parts[1], 10) - 1];
+      calendarDay.textContent = parseInt(parts[2], 10);
+
+      // Reset inputs to saved values
+      document.getElementById('location-street-input').value = savedValues.street;
+      document.getElementById('location-city-input').value = savedValues.city;
+      document.getElementById('zoom-input').value = savedValues.zoom;
+
+      // Swap back to view mode
+      locationDisplay.style.display = '';
+      locationEdit.style.display = 'none';
+      zoomDisplay.style.display = '';
+      zoomEdit.style.display = 'none';
+
+      restoreHeaderButtons();
+      sessionEditing = false;
+    }
+
+    function restoreSessionDisplay(timeVal, titleVal) {
+      const timeRow = document.getElementById('session-time-input');
+      const titleInput = document.getElementById('session-title-input');
+
+      const timeEl = document.createElement('div');
+      timeEl.className = 'session-time';
+      timeEl.id = 'session-time';
+      timeEl.innerHTML = timeVal;
+      timeRow.replaceWith(timeEl);
+
+      const titleEl = document.createElement('h1');
+      titleEl.className = 'session-title';
+      titleEl.id = 'session-title';
+      titleEl.textContent = titleVal;
+      titleInput.replaceWith(titleEl);
+
+      // Refresh cached references
+      sessionTime = timeEl;
+      sessionTitle = titleEl;
+    }
+
+    function restoreHeaderButtons() {
+      headerActions.innerHTML = `
+        <button class="btn btn-secondary" id="session-edit-btn"><img class="btn-icon" src="assets/icons/edit.svg" width="20" height="20">Edit</button>
+        <button class="btn btn-primary" id="session-start-btn">
+          <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="6 3 20 12 6 21 6 3"/>
+          </svg>
+          Start Session
+        </button>
+      `;
+      document.getElementById('session-edit-btn').addEventListener('click', enterSessionEdit);
+    }
+  </script>
+</body>
+</html>
